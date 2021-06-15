@@ -1,0 +1,33 @@
+version: '2'
+
+
+
+services:
+ mydjango:
+  build:
+   context: .
+   dockerfile: ./Dockerfile
+  depends_on :
+   - mydjango_db
+  command: python manage.py runserver 0.0.0.0:9001
+  volumes:
+   - .:/User
+   - /tmp/:/tmp/
+  ports:
+  - 9001:9001
+  env_file:
+  - ./.env
+
+ mydjango_db:
+  image: postgres:12.0-alpine
+  volumes:
+   - project_data:/var/lib/postgresql/data
+  environment:
+   - POSTGRES_USER=postgres
+   - POSTGRES_PASSWORD=root
+   - POSTGRES_DB=User_Creation
+
+volumes:
+  project_data: 
+
+
